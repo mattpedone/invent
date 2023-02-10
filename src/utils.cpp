@@ -1,7 +1,8 @@
-#include <iostream>
-#include <armadillo>
 #include <RcppArmadillo.h>
-#include <numeric>
+#include <math.h>
+#include <R.h>
+#include <Rmath.h>
+#include <stdlib.h> 
 
 using namespace Rcpp;
 using namespace arma;
