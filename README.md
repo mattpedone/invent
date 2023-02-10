@@ -30,3 +30,24 @@ You can install the development version of invent from
 # install.packages("devtools")
 devtools::install_github("mattpedone/invent")
 ```
+
+## Usage
+
+In this section, we will demonstrate a basic example to show how the
+functions in the R package `invent` work.
+
+The R package contains various functions that are designed to perform
+specific tasks. To showcase the functionality, we will go through a
+simple example that illustrates the use of one of these functions. This
+is what `invent::gendata()` and `invent::nlivcC()` do.
+
+``` r
+# Load the R package
+library(invent)
+
+# Generate synthetic data
+data_list <- gendata(n_obs = 50, p = 10, scenario = 1, nnnc = 3)
+
+# Run the regression model
+out <- nlivcC(data_list$Y, data_list$X, iter = 100, burnin = 50, thin = 1)
+```
