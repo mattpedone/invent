@@ -271,7 +271,6 @@ arma::vec compLinPred(int nobs, int p, arma::vec cd, double eta0, arma::mat X_l,
 }
 
 // Body MCMC
-//' @export
 // [[Rcpp::export]]
 List bodyMCMC(arma::vec y, int p, int nobs, arma::vec cd, arma::vec d, arma::mat X_l, arma::mat X_nl, arma::vec hyperpar, arma::vec mht, int iter, int burnin, int thin) {
   // Time 

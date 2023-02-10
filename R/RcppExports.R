@@ -81,7 +81,6 @@ compLinPred <- function(nobs, p, cd, eta0, X_l, beta_l, X_nl, beta_nl) {
     .Call(`_invent_compLinPred`, nobs, p, cd, eta0, X_l, beta_l, X_nl, beta_nl)
 }
 
-#' @export
 bodyMCMC <- function(y, p, nobs, cd, d, X_l, X_nl, hyperpar, mht, iter, burnin, thin) {
     .Call(`_invent_bodyMCMC`, y, p, nobs, cd, d, X_l, X_nl, hyperpar, mht, iter, burnin, thin)
 }
