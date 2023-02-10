@@ -10,3 +10,5 @@ Description: More about what it does (maybe more than
 License: MIT + file LICENSE
 Imports: Rcpp (>= 1.0.10)
 LinkingTo: Rcpp, RcppArmadillo
+URL: https://github.com/mattpedone/invent
+BugReports: https://github.com/mattpedone/invent/issues
