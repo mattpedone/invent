@@ -8,7 +8,9 @@ Maintainer: Who to complain to <yourfault@somewhere.net>
 Description: More about what it does (maybe more than
       one line)
 License: MIT + file LICENSE
+Encoding: UTF-8
 Imports: Rcpp (>= 1.0.10)
 LinkingTo: Rcpp, RcppArmadillo
 URL: https://github.com/mattpedone/invent
 BugReports: https://github.com/mattpedone/invent/issues
+RoxygenNote: 7.2.3
