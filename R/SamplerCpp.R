@@ -4,7 +4,7 @@
 ##### ------------------------------------------------------------------ ######
 nlivcC <- function(y, x, hyperpar = c(5, 25, 5, 5, 0.00025, 1, 1), 
                    mht = c(0.8, 1.4, 0.2, 1.4, 0.7, 0.15, 0.8, 0.4), 
-                   rank = 0.95, iter = 10000, burnin = iter/2, thin = 5) {
+                   rank = 0.95, iter = 10000, burnin = iter/2, thin = 5, ha) {
 
   result <- NULL
   #useful quantities
@@ -31,7 +31,7 @@ nlivcC <- function(y, x, hyperpar = c(5, 25, 5, 5, 0.00025, 1, 1),
   result = bodyMCMC(as.vector(y), as.integer(p), as.integer(nobs), as.vector(cd), 
                     as.vector(d), as.matrix(X_l), as.matrix(X_nl), 
                     as.vector(hyperpar), as.vector(mht), as.integer(iter), 
-                    as.integer(burnin), as.integer(thin))
+                    as.integer(burnin), as.integer(thin), ha)
   
   res <- result
   

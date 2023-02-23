@@ -12,7 +12,8 @@ nlivcC(
   rank = 0.95,
   iter = 10000,
   burnin = iter/2,
-  thin = 5
+  thin = 5,
+  ha
 )
 }
 \description{
