@@ -3,6 +3,7 @@
 #include <R.h>
 #include <Rmath.h>
 #include <stdlib.h> 
+#include <chrono>
 
 using namespace Rcpp;
 using namespace arma;
@@ -274,7 +275,7 @@ arma::vec compLinPred(int nobs, int p, arma::vec cd, double eta0, arma::mat X_l,
 // [[Rcpp::export]]
 List bodyMCMC(arma::vec y, int p, int nobs, arma::vec cd, arma::vec d, arma::mat X_l, arma::mat X_nl, arma::vec hyperpar, arma::vec mht, int iter, int burnin, int thin, int ha) {
   // Time 
-  //auto start = high_resolution_clock::now();
+  auto start = std::chrono::high_resolution_clock::now();
   ////////////////////////////////////////////////////
   ////////////////// Initial value //////////////////
   ///////////////////////////////////////////////////
@@ -525,6 +526,7 @@ List bodyMCMC(arma::vec y, int p, int nobs, arma::vec cd, arma::vec d, arma::mat
   ////////////////////////////////////////////////////
   //////////////////// Start MCMC ////////////////////
   ///////////////////////////////////////////////////
+  
   for (int t = 0; t<iter; t++) {
     // update pi start linear
     pi_star_l = update_piSC(hyperpar(5), hyperpar(6), gamma_star_l, hyperpar(4));
@@ -1403,7 +1405,7 @@ List bodyMCMC(arma::vec y, int p, int nobs, arma::vec cd, arma::vec d, arma::mat
       }
       arma::vec col_ind = myRange(cd[j], cd[j+1]-1);
       arma::uvec ucol_ind = arma::conv_to<arma::uvec>::from(col_ind);
-      mat sumEta = X_nl.cols(ucol_ind)%beta_nl.cols(ucol_ind) + X_nl.cols(ucol_ind)%beta_nl_tmp.cols(ucol_ind);
+      arma::mat sumEta = X_nl.cols(ucol_ind)%beta_nl.cols(ucol_ind) + X_nl.cols(ucol_ind)%beta_nl_tmp.cols(ucol_ind);
       arma::vec eta_pl_tmp = eta_pl - arma::sum(sumEta, 1); // apply function
       List uxnl = update_xiNLC(y, eta_pl_tmp, eta_pl, sigma, m_nl(span(cd[j], cd[j+1]-1)), xi_starnl(span(cd[j], cd[j+1]-1)), xi_nl(span(cd[j], cd[j+1]-1)));
       arma::vec resXnl = uxnl[0];
@@ -1497,8 +1499,10 @@ List bodyMCMC(arma::vec y, int p, int nobs, arma::vec cd, arma::vec d, arma::mat
   //////////////////// End MCMC //////////////////////
   ///////////////////////////////////////////////////
   // Time 
-  //auto stop = high_resolution_clock::now();
-  //auto duration = duration_cast<microseconds>(stop - start);
+  auto stop = std::chrono::high_resolution_clock::now();
+  auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start).count();
+  
+  std::cout << "The computational time for the entire MCMC is " << duration/1000000;
   
   return List::create(Named("d") = d,
                       Named("intercept") = ETA0,
@@ -1529,14 +1533,14 @@ List bodyMCMC(arma::vec y, int p, int nobs, arma::vec cd, arma::vec d, arma::mat
                       Named("pi_star_nl") = PI_S_nl,
                       Named("sigma") = SIGMA,
                       Named("LogLikelihood") = LOGLIKELIHOOD
-                        //Named("acc_a_s_l") = alpha_star_l_acc/iter,
-                        //Named("acc_a_s_nl") = alpha_star_nl_acc/iter,
-                        //Named("acc_xi_s_l") = xi_star_l_acc/iter,
-                        //Named("acc_xi_s_nl") = xi_star_nl_acc/iter,
-                        //Named("acc_a_0_l") = alpha_0_l_acc/iter, 
-                        //Named("acc_a_0_nl") = alpha_0_nl_acc/iter, 
-                        //Named("acc_xi_l") = xi_l_acc/iter, 
-                        //Named("acc_xi_nl") = xi_nl_acc/iter
-                        //Named("Execution Time") = (duration.count())/1000000
+                      //Named("acc_a_s_l") = alpha_star_l_acc/iter,
+                      //Named("acc_a_s_nl") = alpha_star_nl_acc/iter,
+                      //Named("acc_xi_s_l") = xi_star_l_acc/iter,
+                      //Named("acc_xi_s_nl") = xi_star_nl_acc/iter,
+                      //Named("acc_a_0_l") = alpha_0_l_acc/iter, 
+                      //Named("acc_a_0_nl") = alpha_0_nl_acc/iter, 
+                      //Named("acc_xi_l") = xi_l_acc/iter, 
+                      //Named("acc_xi_nl") = xi_nl_acc/iter
+                      //Named("Execution Time") = (duration.count())/1000000
   );
 }
