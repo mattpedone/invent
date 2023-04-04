@@ -275,7 +275,7 @@ arma::vec compLinPred(int nobs, int p, arma::vec cd, double eta0, arma::mat X_l,
 // [[Rcpp::export]]
 List bodyMCMC(arma::vec y, int p, int nobs, arma::vec cd, arma::vec d, arma::mat X_l, arma::mat X_nl, arma::vec hyperpar, arma::vec mht, int iter, int burnin, int thin, int ha) {
   // Time 
-  auto start = std::chrono::high_resolution_clock::now();
+  // auto start = std::chrono::high_resolution_clock::now();
   ////////////////////////////////////////////////////
   ////////////////// Initial value //////////////////
   ///////////////////////////////////////////////////
@@ -1499,10 +1499,10 @@ List bodyMCMC(arma::vec y, int p, int nobs, arma::vec cd, arma::vec d, arma::mat
   //////////////////// End MCMC //////////////////////
   ///////////////////////////////////////////////////
   // Time 
-  auto stop = std::chrono::high_resolution_clock::now();
-  auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start).count();
+  //auto stop = std::chrono::high_resolution_clock::now();
+  //auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start).count();
   
-  std::cout << "The computational time for the entire MCMC is " << duration/1000000;
+  // std::cout << "The computational time for the entire MCMC is " << duration/1000000;
   
   return List::create(Named("d") = d,
                       Named("intercept") = ETA0,
@@ -1520,7 +1520,7 @@ List bodyMCMC(arma::vec y, int p, int nobs, arma::vec cd, arma::vec d, arma::mat
                       Named("xi_star_l") = XI_S_l,
                       Named("xi_star_nl") = XI_S_nl,
                       //Named("tau_0_l") = TAU_0_l,
-                      Named("tau_0_nl") = TAU_0_nl,
+                      //Named("tau_0_nl") = TAU_0_nl,
                       //Named("tau_star_l") = TAU_S_l,
                       //Named("tau_star_nl") = TAU_S_nl
                       Named("gamma_0_l") = GAMMA_0_l,
@@ -1541,6 +1541,6 @@ List bodyMCMC(arma::vec y, int p, int nobs, arma::vec cd, arma::vec d, arma::mat
                       //Named("acc_a_0_nl") = alpha_0_nl_acc/iter, 
                       //Named("acc_xi_l") = xi_l_acc/iter, 
                       //Named("acc_xi_nl") = xi_nl_acc/iter
-                      //Named("Execution Time") = (duration.count())/1000000
+                      //Named("Execution Time") = duration/1000000
   );
 }
