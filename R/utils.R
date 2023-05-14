@@ -104,6 +104,8 @@ gendata <- function(n_obs = 200, p = 10, minb = 1.5, maxb = 3.0, error = 0.01, s
   # principali che lo generano.
   
   # interaction omega parameter (beta star in thesis)
+  # quindi se ci sono gli effetti principali lineari ci sono anche quelli di interazione lineare
+  # non faccio nessun controllo per lo scenario
   omega_l <- matrix(0, p, p)
   # linnc <- length(innc)
   # interaction <- matrix(0, length(innc), 2)
