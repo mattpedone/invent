@@ -508,6 +508,8 @@ List bodyMCMC(arma::vec y, int p, int nobs, arma::vec cd, arma::vec d, arma::mat
   // Alpha linear and non linear
   List ALPHA_l(nout);
   List ALPHA_nl(nout);
+  // Profiling Matrix
+  arma::mat Prof_Mat(nout, 2);
   // Init Parameters
   double alpha_star_bar;
   double omega_l_tmp;
@@ -532,6 +534,8 @@ List bodyMCMC(arma::vec y, int p, int nobs, arma::vec cd, arma::vec d, arma::mat
     pi_star_l = update_piSC(hyperpar(5), hyperpar(6), gamma_star_l, hyperpar(4));
     // update pi start non linear
     pi_star_nl = update_piSC(hyperpar(5), hyperpar(6), gamma_star_nl, hyperpar(4));
+    // Time
+    auto start_emLinear = std::chrono::high_resolution_clock::now();
     //////////////////// effect modifiers linear peNMIG ////////////////////
     for (int j = 0; j<(p-1); j++) {
       for (int k = (j+1); k<p; k++) {
@@ -873,8 +877,13 @@ List bodyMCMC(arma::vec y, int p, int nobs, arma::vec cd, arma::vec d, arma::mat
         }
       } // end linear k
     } // end linear j
+
+    auto stop_emLinear = std::chrono::high_resolution_clock::now();
+    auto duration_emLinear = std::chrono::duration_cast<std::chrono::microseconds>(stop_emLinear - start_emLinear).count();
+
+    // Time
+    auto start_emNLinear = std::chrono::high_resolution_clock::now();
     //////////////////// effect modifiers non-linear peNMIG ////////////////////
-    
     for (int j = 0; j<(p-1); j++) {
       for (int k = (j+1); k<p; k++) {
         
@@ -1244,6 +1253,9 @@ List bodyMCMC(arma::vec y, int p, int nobs, arma::vec cd, arma::vec d, arma::mat
 
       } // end non linear k
     } // end non linear j
+
+    auto stop_emNLinear = std::chrono::high_resolution_clock::now();
+    auto duration_emNLinear = std::chrono::duration_cast<std::chrono::microseconds>(stop_emNLinear - start_emNLinear).count();
     
     // rescaling
     for (int j = 0; j<(p-1); j++) {
@@ -1456,6 +1468,11 @@ List bodyMCMC(arma::vec y, int p, int nobs, arma::vec cd, arma::vec d, arma::mat
     sigma = update_sigmaC(y, eta_pl, hyperpar(2), hyperpar(3), nobs);
     // log-likelihood
     double logLik = arma::accu(dnormLogVec(y, eta_pl, sqrt(sigma)));
+
+    // Time
+    arma::vec timeVector(2);
+    timeVector(0) = duration_emLinear;
+    timeVector(1) = duration_emNLinear;
     // store resutls
     if(t%thin == 0 && t > burnin-1) { // we start from 0
       PI_S_l(idx) = pi_star_l;
@@ -1492,6 +1509,8 @@ List bodyMCMC(arma::vec y, int p, int nobs, arma::vec cd, arma::vec d, arma::mat
       ALPHA_0_nl.row(idx) = alpha_0_nl.t();
       ALPHA_l[idx] = alpha_l;
       ALPHA_nl[idx] = alpha_nl;
+      // Time
+      Prof_Mat.row(idx) = timeVector.t();
       idx = idx + 1;
     }
   } // end iteration
@@ -1532,7 +1551,7 @@ List bodyMCMC(arma::vec y, int p, int nobs, arma::vec cd, arma::vec d, arma::mat
                       //Named("pi_star_l") = PI_S_l,
                       Named("pi_star_nl") = PI_S_nl,
                       Named("sigma") = SIGMA,
-                      Named("LogLikelihood") = LOGLIKELIHOOD
+                      Named("LogLikelihood") = LOGLIKELIHOOD,
                       //Named("acc_a_s_l") = alpha_star_l_acc/iter,
                       //Named("acc_a_s_nl") = alpha_star_nl_acc/iter,
                       //Named("acc_xi_s_l") = xi_star_l_acc/iter,
@@ -1542,5 +1561,6 @@ List bodyMCMC(arma::vec y, int p, int nobs, arma::vec cd, arma::vec d, arma::mat
                       //Named("acc_xi_l") = xi_l_acc/iter, 
                       //Named("acc_xi_nl") = xi_nl_acc/iter
                       //Named("Execution Time") = duration/1000000
+                      Named("Profiling") = Prof_Mat
   );
 }
