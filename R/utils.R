@@ -120,11 +120,20 @@ gendata <- function(n_obs = 200, p = 10, minb = 1.5, maxb = 3.0, error = 0.01, s
   }
   
   omega_tilde <- matrix(0, nrow = p, ncol = q)
-  if ((scenario == 2) | (scenario == 4)) {
+  if (scenario == 4) {
     for (i in 1:(p-1)) {
       for (j in (i+1):p) {
         if ((alpha_0_tilde[1,i] != 0) & (alpha_0_tilde[1,j] != 0)) {
           omega_tilde[i, (cd[j]+1):(cd[j+1])] <- alpha_0_tilde[1,i]*alpha_0_tilde[1,j]
+        }
+      }
+    }
+  }
+  if (scenario == 2) {
+    for (i in 1:(p-1)) {
+      for (j in (i+1):p) {
+        if ((alpha_0_l[1,i] != 0) & (alpha_0_l[1,j] != 0)) {
+          omega_tilde[i, (cd[j]+1):(cd[j+1])] <- rnorm(1, 2, 0.5)*sign(runif(1, -1, 1))
         }
       }
     }
