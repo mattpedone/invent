@@ -888,7 +888,7 @@ List bodyMCMC(arma::vec y, int p, int nobs, arma::vec cd, arma::vec d, arma::mat
       for (int k = (j+1); k<p; k++) {
         
         if (ha == 1) {
-          if ((gamma_0_nl(j) != hyperpar(4)) || (gamma_0_nl(k) != hyperpar(4))) {
+          if ((gamma_0_l(j) != hyperpar(4)) || (gamma_0_l(k) != hyperpar(4))) {
             // update gamma star non linear
             gamma_star_nl(j,k) = update_gammaScaC(pi_star_nl, hyperpar(4), alpha_star_nl(j,k), tau_star_nl(j,k));
             // update tau star non linear
@@ -1010,7 +1010,7 @@ List bodyMCMC(arma::vec y, int p, int nobs, arma::vec cd, arma::vec d, arma::mat
         }
         
         if (ha == 2) {
-          if ((gamma_0_nl(j) != hyperpar(4)) && (gamma_0_nl(k) != hyperpar(4))) {
+          if ((gamma_0_l(j) != hyperpar(4)) && (gamma_0_l(k) != hyperpar(4))) {
             // update gamma star non linear
             gamma_star_nl(j,k) = update_gammaScaC(pi_star_nl, hyperpar(4), alpha_star_nl(j,k), tau_star_nl(j,k));
             // update tau star non linear

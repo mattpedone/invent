@@ -48,7 +48,10 @@
 # }
 #' @export
 
-gendata <- function(n_obs = 200, p = 10, minb = 1.5, maxb = 3.0, error = 0.01, scenario = 4, nnnc = 3){
+gendata <- function(n_obs = 200, p = 10, minb = 1.5, maxb = 3.0, error = 0.01, scenario = 4, nnnc = 3, ha = 2){
+  # ha = 2, strong heredity assumption
+  # ha = 1, weak heredity assumption
+  # ha = 0, no assumption
   X <- vector()
   X_l <- vector()
   X_tilde <- vector()
