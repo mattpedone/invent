@@ -52,6 +52,10 @@ gendata <- function(n_obs = 200, p = 10, minb = 1.5, maxb = 3.0, error = 0.01, s
   # ha = 2, strong heredity assumption
   # ha = 1, weak heredity assumption
   # ha = 0, no assumption
+
+  noi <- 3 # non null interaction for each non null principal effect
+  p_vector <- 1:p
+  
   X <- vector()
   X_l <- vector()
   X_tilde <- vector()
@@ -113,10 +117,22 @@ gendata <- function(n_obs = 200, p = 10, minb = 1.5, maxb = 3.0, error = 0.01, s
   # linnc <- length(innc)
   # interaction <- matrix(0, length(innc), 2)
   if (length(innc) != 1) {
-    for (i in 1:(p-1)) {
-      for (j in (i+1):p) {
-        if ((alpha_0_l[1,i] != 0) & (alpha_0_l[1,j] != 0)) {
-          omega_l[i,j] <- alpha_0_l[1,i]*alpha_0_l[1,j]
+    if (ha == 2) { # strong heredity
+      for (i in 1:(p-1)) {
+        for (j in (i+1):p) {
+          if ((alpha_0_l[1,i] != 0) & (alpha_0_l[1,j] != 0)) {
+            omega_l[i,j] <- alpha_0_l[1,i]*alpha_0_l[1,j]
+          }
+        }
+      }
+    }
+    # da controllare
+    if (ha == 1) { # weak heredity
+      for (i in innc) {
+        innc_perm <- p_vector[p_vector != i]
+        nn_int <- sort(sample(innc_perm, noi, replace = FALSE))
+        for (j in nn_int) {
+          omega_l[i,j] <- rnorm(1, 2, 0.5)*sign(runif(1, -1, 1))
         }
       }
     }

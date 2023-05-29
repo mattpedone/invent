@@ -11,7 +11,8 @@ gendata(
   maxb = 3,
   error = 0.01,
   scenario = 4,
-  nnnc = 3
+  nnnc = 3,
+  ha = 2
 )
 }
 \description{
