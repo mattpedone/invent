@@ -1277,7 +1277,7 @@ List bodyMCMC(arma::vec y, int p, int nobs, arma::vec cd, arma::vec d, arma::mat
     // update pi 0 linear
     pi_0_l = update_piNSC(hyperpar(5), hyperpar(6), gamma_0_l, hyperpar(4));
     // update pi 0 non linear
-    pi_0_nl = update_piNSC(hyperpar(5), hyperpar(6), gamma_0_nl, hyperpar(4));
+    pi_0_nl = update_piNSC(hyperpar(7), hyperpar(8), gamma_0_nl, hyperpar(4));
     // update gamma 0 linear
     gamma_0_l = update_gammaVecC(pi_0_l, hyperpar(4), alpha_0_l, tau_0_l);
     // update gamma 0 non linear
