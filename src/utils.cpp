@@ -533,7 +533,7 @@ List bodyMCMC(arma::vec y, int p, int nobs, arma::vec cd, arma::vec d, arma::mat
     // update pi start linear
     pi_star_l = update_piSC(hyperpar(5), hyperpar(6), gamma_star_l, hyperpar(4));
     // update pi start non linear
-    pi_star_nl = update_piSC(hyperpar(5), hyperpar(6), gamma_star_nl, hyperpar(4));
+    pi_star_nl = update_piSC(hyperpar(7), hyperpar(8), gamma_star_nl, hyperpar(4));
     // Time
     auto start_emLinear = std::chrono::high_resolution_clock::now();
     //////////////////// effect modifiers linear peNMIG ////////////////////
