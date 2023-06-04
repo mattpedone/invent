@@ -1,11 +1,11 @@
-#' nlicC
+#' invMCMC
 #' 
 #' @export
 
 ##### ------------------------------------------------------------------ ######
-nlivcC <- function(y, x, hyperpar = c(5, 25, 5, 5, 0.00025, 0.4, 1.6, 0.2, 1.8), 
+invMCMC <- function(y, x, hyperpar = c(5, 25, 5, 5, 0.00025, 0.4, 1.6, 0.2, 1.8), 
                    mht = c(0.8, 1.4, 0.2, 1.4, 0.7, 0.15, 0.8, 0.4), 
-                   rank = 0.95, iter = 10000, burnin = iter/2, thin = 5, ha) {
+                   rank = 0.95, iter = 10000, burnin = iter/2, thin = 5, ha = 2) {
 
   result <- NULL
   #useful quantities

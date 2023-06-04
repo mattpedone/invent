@@ -116,7 +116,7 @@ gendata <- function(n_obs = 200, p = 10, minb = 1.5, maxb = 3.0, error = 0.01, s
   omega_l <- matrix(0, p, p)
   # linnc <- length(innc)
   # interaction <- matrix(0, length(innc), 2)
-  if (length(innc) != 1) {
+  if (length(innc) != 1) { # si può anche eliminare
     if (ha == 2) { # strong heredity
       for (i in 1:(p-1)) {
         for (j in (i+1):p) {
@@ -126,17 +126,18 @@ gendata <- function(n_obs = 200, p = 10, minb = 1.5, maxb = 3.0, error = 0.01, s
         }
       }
     }
-    # da controllare
-    if (ha == 1) { # weak heredity
-      for (i in innc) {
-        innc_perm <- p_vector[p_vector != i]
-        nn_int <- sort(sample(innc_perm, noi, replace = FALSE))
-        for (j in nn_int) {
-          omega_l[i,j] <- rnorm(1, 2, 0.5)*sign(runif(1, -1, 1))
-        }
+  }
+  # da controllare
+  if (ha == 1) { # weak heredity
+    for (i in innc) {
+      innc_perm <- p_vector[p_vector != i]
+      nn_int <- sort(sample(innc_perm, noi, replace = FALSE))
+      for (j in nn_int) {
+        omega_l[i,j] <- rnorm(1, 2, 0.5)*sign(runif(1, -1, 1))
       }
     }
   }
+  
   
   omega_tilde <- matrix(0, nrow = p, ncol = q)
   if (scenario == 4) {
@@ -151,8 +152,9 @@ gendata <- function(n_obs = 200, p = 10, minb = 1.5, maxb = 3.0, error = 0.01, s
     }
     if (ha == 1) {
       for (i in innc) {
-        innc_perm <- p_vector[p_vector != i]
-        nn_int <- sort(sample(innc_perm, noi, replace = FALSE))
+        # stesse interazioni non nulle di quelle lineari
+        # innc_perm <- p_vector[p_vector != i]
+        # nn_int <- sort(sample(innc_perm, noi, replace = FALSE))
         for (j in nn_int) {
           omega_tilde[i, (cd[j]+1):(cd[j+1])] <- rnorm(1, 2, 0.5)*sign(runif(1, -1, 1))
         }
