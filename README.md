@@ -39,7 +39,7 @@ functions in the R package `invent` work.
 The R package contains various functions that are designed to perform
 specific tasks. To showcase the functionality, we will go through a
 simple example that illustrates the use of one of these functions. This
-is what `invent::gendata()` and `invent::invMCMC()` do.
+is what `invent::gendata()` and `invent::nlivcC()` do.
 
 ``` r
 # Load the R package
@@ -49,5 +49,5 @@ library(invent)
 data_list <- gendata(n_obs = 50, p = 10, scenario = 1, nnnc = 3)
 
 # Run the regression model
-out <- invMCMC(data_list$Y, data_list$X, iter = 100, burnin = 50, thin = 1)
+out <- nlivcC(data_list$Y, data_list$X, iter = 100, burnin = 50, thin = 1)
 ```
