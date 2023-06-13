@@ -142,6 +142,7 @@ gendata <- function(n_obs = 200, p = 10, minb = 1.5, maxb = 3.0, error = 0.01, s
   if (ha == 0) {
     cov1 <- sort(sample(1:p, noi, replace = FALSE))
     chCov2 <- setdiff(1:p, cov1)
+<<<<<<< HEAD
     if (length(chCov2) < noi) {
       print("Occhio al numero di interazioni non nulle!")
     }
@@ -150,6 +151,15 @@ gendata <- function(n_obs = 200, p = 10, minb = 1.5, maxb = 3.0, error = 0.01, s
       first <- cov1[i]
       second <- cov2[i]
       print(second)
+=======
+    # if (length(chCov2) < noi) {
+    #   print("Watch out for the number of non-zero interactions!")
+    # }
+    cov2 <- sort(sample(chCov2, noi, replace = TRUE))
+    for (i in 1:noi) {
+      first <- cov1[i]
+      second <- cov2[i]
+>>>>>>> d5b9b5caaa18bcf52555d7af8c1474282afed47f
       omega_l[first, second] <- rnorm(1, 2, 0.5)*sign(runif(1, -1, 1))
       if (scenario == 2 || scenario == 4) {
         omega_tilde[first, (cd[second]+1):(cd[second+1])] <- rnorm(1, 2, 0.5)*sign(runif(1, -1, 1))
